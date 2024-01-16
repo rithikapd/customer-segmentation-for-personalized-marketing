@@ -1,0 +1,94 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df=pd.read_csv(r"C:\Users\divya\Downloads\archive (1)\E-commerce Customer Behavior - Sheet1.csv")
+
+df.head()
+
+df.info()
+
+df.tail()
+
+df.shape
+
+df.describe()
+
+df.isnull().sum()
+
+df['Satisfaction Level'].fillna(2, inplace=True)
+
+df.drop_duplicates(inplace=True)
+
+df['Gender'].value_counts()
+
+plt.figure(figsize=(8, 6))
+df['Gender'].value_counts().plot(kind='pie', autopct='%1.2f%%')
+plt.show()
+
+gender_spend = df.groupby('Gender')['Total Spend'].mean()
+gender_spend.plot.bar()
+plt.title("Average Spending for each Gender")
+plt.show()
+
+gender_membership = df.groupby(['Gender', 'Membership Type']).size().reset_index(name='count')
+sns.barplot(data=gender_membership, x='Gender', y='count', hue='Membership Type')
+plt.show()
+
+age_data = df['Age'].value_counts().reset_index().rename(columns={'Age': 'count', 'index': 'Age'})
+plt.figure(figsize=(10, 6))
+sns.barplot(data=age_data, x='Age', y='count')
+plt.title("Age Distribution")
+plt.show()
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+data = {
+    'Gender': ['Male', 'Female', 'Male', 'Female', 'Male'],
+    'Age': [25, 30, 35, 40, 45]
+}
+df = pd.DataFrame(data)
+gender_age_data = df[['Gender', 'Age']].value_counts().reset_index(name='count')
+plt.figure(figsize=(16, 6))
+sns.barplot(data=gender_age_data, x='Age', y='count', hue='Gender')
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+data = {
+    'City': ['City1', 'City2', 'City3', 'City4', 'City5', 'City6', 'City1', 'City2', 'City3', 'City4', 'City5', 'City6']
+}
+df = pd.DataFrame(data)
+plt.figure(figsize=(10, 6))
+df['City'].value_counts().plot(kind='pie', autopct='%.2f%%')
+plt.title('Distribution of Cities')
+plt.show()
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+data = {
+    'City': ['City1', 'City2', 'City3', 'City4', 'City5', 'City6'],
+    'Total Spend': [500, 750, 600, 800, 700, 900]
+}
+df = pd.DataFrame(data)
+plt.figure(figsize=(8, 6))
+sns.barplot(data=df, x='City', y='Total Spend')
+plt.title("Average Spending by City")
+plt.show()
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+data = {
+    'Membership Type': ['Gold', 'Platinum', 'Silver', 'Gold', 'Platinum', 'Silver'],
+    'Total Spend': [500, 750, 600, 800, 700, 900]
+}
+df = pd.DataFrame(data)
+preference_order = ['Platinum', 'Gold', 'Silver']
+df_sorted = df.sort_values(by='Membership Type', key=lambda x: x.map({m: i for i, m in enumerate(preference_order)}))
+plt.figure(figsize=(8, 6))
+sns.barplot(data=df_sorted, x='Membership Type', y='Total Spend', order=preference_order)
+plt.title("Total Spending by Membership Type")
+plt.show()
